@@ -30,6 +30,9 @@ public class TarefaView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         taLista = new javax.swing.JTextArea();
         btListar = new javax.swing.JButton();
+        btRemover = new javax.swing.JButton();
+        btConcluida1 = new javax.swing.JButton();
+        cbTarefas = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro de Tarefas");
@@ -90,22 +93,36 @@ public class TarefaView extends javax.swing.JFrame {
         btListar.setText("Listar Tarefas");
         btListar.addActionListener(this::btListarActionPerformed);
 
+        btRemover.setText("Remover");
+        btRemover.addActionListener(this::btRemoverActionPerformed);
+
+        btConcluida1.setText("Concluir");
+        btConcluida1.addActionListener(this::btConcluida1ActionPerformed);
+
+        cbTarefas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addComponent(btListar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbTarefas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btConcluida1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(232, 232, 232)
-                        .addComponent(btListar, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,8 +132,12 @@ public class TarefaView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btListar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btListar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btConcluida1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbTarefas))
+                .addGap(15, 15, 15))
         );
 
         pack();
@@ -127,12 +148,21 @@ public class TarefaView extends javax.swing.JFrame {
         try {
             //Pega nome Digitado
             String nome = txfNome.getText();
-
-            //Envia para controle
-            controller.adicionar(nome);
-
-            JOptionPane.showMessageDialog(null, 
-                    "Tarefa cadastrada!");
+            if (nome.trim().isEmpty()) {
+                //Mensagem para txf vazio
+                JOptionPane.showMessageDialog(null, 
+                    "Digite o nome da tarefa!");
+                return;
+            }else{
+                //Envia para controle
+                controller.adicionar(nome);
+                cbTarefas.addItem(nome);
+                JOptionPane.showMessageDialog(null, 
+                        "Tarefa cadastrada!");
+                txfNome.setText("");
+                System.out.println(nome);
+                btListarActionPerformed(evt);
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro no sistema!");
         }
@@ -141,16 +171,33 @@ public class TarefaView extends javax.swing.JFrame {
     private void btListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btListarActionPerformed
         try {
             taLista.setText("");
-
             //Percorre lista 
             for(TarefaModel t : controller.listar()){
                 taLista.append(t.toString());
                 taLista.append("\n");
+                System.out.println("encontrei na lista: "+t.getNome());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro no sistema!");
         }
     }//GEN-LAST:event_btListarActionPerformed
+
+    private void btRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverActionPerformed
+        try {
+            String tarefaCbx = cbTarefas.toString();
+                controller.remover(tarefaCbx);
+                JOptionPane.showMessageDialog(null, "Tarefa removida com sucesso!");
+                txfNome.setText("");
+                btListarActionPerformed(evt);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro no sistema!");
+        }
+    }//GEN-LAST:event_btRemoverActionPerformed
+
+    private void btConcluida1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConcluida1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btConcluida1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -179,7 +226,10 @@ public class TarefaView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdicionar;
+    private javax.swing.JButton btConcluida1;
     private javax.swing.JButton btListar;
+    private javax.swing.JButton btRemover;
+    private javax.swing.JComboBox<String> cbTarefas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
