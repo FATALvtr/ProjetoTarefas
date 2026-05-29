@@ -11,28 +11,42 @@ public class TarefaController {
     
     //Método Adicionar
     public void adicionar(String nome){
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getNome().equalsIgnoreCase(nome)) {
-                JOptionPane.showMessageDialog(null, "Tarefa com este titulo ja existente!");
-        }
-                TarefaModel tarefa = new TarefaModel(nome);
-                lista.add(tarefa);//acidiona se caso não existir
-    }
+        TarefaModel tarefa = new TarefaModel(nome);
+        lista.add(tarefa);//acidiona se caso não existir
     }
     
     //Método listar
     public ArrayList<TarefaModel> listar(){
         return lista;
     }
-    public void remover(String tarefaCbx){
+    public void remover(String nome){
+        boolean encontrou = false;
         //encontra o nome correspondente na lista
         for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getNome().equalsIgnoreCase(tarefaCbx)) {
+            if (lista.get(i).getNome().equalsIgnoreCase(nome)) {
                 lista.remove(i);//remover a tarefa pelo indice/posição
+                encontrou = true;
                 break;
+            }else{
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao remover a terefa!");
             }
         }
         
     }
+    public void cloncluida(String nome){
+        boolean achou = false;
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getNome().equalsIgnoreCase(nome)) {
+                TarefaModel tarefa = lista.get(i);
+                tarefa.setConcluida(true);
+                JOptionPane.showConfirmDialog(null, "Essa tarefa foi concluida!");
+                achou = true;
+                break;
+        }
+    }
+        if (!achou) {
+            JOptionPane.showMessageDialog(null, "Tarefa não encontrada para ser concluida!");
+        }
     
+}
 }

@@ -99,8 +99,6 @@ public class TarefaView extends javax.swing.JFrame {
         btConcluida1.setText("Concluir");
         btConcluida1.addActionListener(this::btConcluida1ActionPerformed);
 
-        cbTarefas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,11 +130,12 @@ public class TarefaView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btListar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btConcluida1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbTarefas))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbTarefas, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btListar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btConcluida1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(15, 15, 15))
         );
 
@@ -175,7 +174,6 @@ public class TarefaView extends javax.swing.JFrame {
             for(TarefaModel t : controller.listar()){
                 taLista.append(t.toString());
                 taLista.append("\n");
-                System.out.println("encontrei na lista: "+t.getNome());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro no sistema!");
@@ -184,19 +182,29 @@ public class TarefaView extends javax.swing.JFrame {
 
     private void btRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverActionPerformed
         try {
-            String tarefaCbx = cbTarefas.toString();
-                controller.remover(tarefaCbx);
-                JOptionPane.showMessageDialog(null, "Tarefa removida com sucesso!");
-                txfNome.setText("");
-                btListarActionPerformed(evt);
-            
+            if (cbTarefas.getSelectedItem() != null) {
+                String removerTarefa = cbTarefas.getSelectedItem().toString();
+                controller.remover(removerTarefa);
+                cbTarefas.removeItem(cbTarefas.getSelectedItem());
+            }else{
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao remover a tarefa!");
+            }
+            JOptionPane.showMessageDialog(null, "Tarefa removida com sucesso!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro no sistema!");
         }
     }//GEN-LAST:event_btRemoverActionPerformed
 
     private void btConcluida1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConcluida1ActionPerformed
-        // TODO add your handling code here:
+        try {
+            if (cbTarefas.getSelectedItem() != null) {
+                String status = cbTarefas.getSelectedItem().toString();
+                controller.cloncluida(status);
+            }
+        } catch (Exception e) {
+        }
+            
+        
     }//GEN-LAST:event_btConcluida1ActionPerformed
 
     /**
