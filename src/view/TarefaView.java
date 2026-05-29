@@ -1,6 +1,7 @@
 package view;
 
 import controller.TarefaController;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import model.TarefaModel;
 
@@ -33,6 +34,7 @@ public class TarefaView extends javax.swing.JFrame {
         btRemover = new javax.swing.JButton();
         btConcluida1 = new javax.swing.JButton();
         cbTarefas = new javax.swing.JComboBox<>();
+        lbQuantidades = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro de Tarefas");
@@ -40,6 +42,12 @@ public class TarefaView extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Nova Tarefa"));
 
         jLabel1.setText("Nome da Tarefa:");
+
+        txfNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txfNomeKeyPressed(evt);
+            }
+        });
 
         btAdicionar.setText("Adicionar");
         btAdicionar.addActionListener(this::btAdicionarActionPerformed);
@@ -86,8 +94,8 @@ public class TarefaView extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btListar.setText("Listar Tarefas");
@@ -99,6 +107,8 @@ public class TarefaView extends javax.swing.JFrame {
         btConcluida1.setText("Concluir");
         btConcluida1.addActionListener(this::btConcluida1ActionPerformed);
 
+        lbQuantidades.setText("Tarefas: ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,19 +118,24 @@ public class TarefaView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(btListar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbTarefas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btConcluida1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lbQuantidades)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btListar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbTarefas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btConcluida1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,14 +144,16 @@ public class TarefaView extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbQuantidades)
+                .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbTarefas, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btListar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btConcluida1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(15, 15, 15))
+                .addContainerGap())
         );
 
         pack();
@@ -162,6 +179,7 @@ public class TarefaView extends javax.swing.JFrame {
                 System.out.println(nome);
                 btListarActionPerformed(evt);
             }
+            txfNome.requestFocus();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro no sistema!");
         }
@@ -174,6 +192,7 @@ public class TarefaView extends javax.swing.JFrame {
             for(TarefaModel t : controller.listar()){
                 taLista.append(t.toString());
                 taLista.append("\n");
+                lbQuantidades.setText("Tarefas: "+cbTarefas.getItemCount());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro no sistema!");
@@ -183,13 +202,19 @@ public class TarefaView extends javax.swing.JFrame {
     private void btRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverActionPerformed
         try {
             if (cbTarefas.getSelectedItem() != null) {
-                String removerTarefa = cbTarefas.getSelectedItem().toString();
-                controller.remover(removerTarefa);
-                cbTarefas.removeItem(cbTarefas.getSelectedItem());
-            }else{
-                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao remover a tarefa!");
+                int escolha = JOptionPane.showOptionDialog(null, "Deseja remover essa tarefa?", "Confirmar escolha", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+                if (escolha == JOptionPane.OK_OPTION) {
+                    String removerTarefa = cbTarefas.getSelectedItem().toString();
+                    controller.remover(removerTarefa);
+                    cbTarefas.removeItem(cbTarefas.getSelectedItem());
+                    btListarActionPerformed(evt);
+                    JOptionPane.showConfirmDialog(null, removerTarefa+" foi removida com sucesso!", "Tarefa Removida!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                }else if(escolha == JOptionPane.CANCEL_OPTION){
+                    JOptionPane.showMessageDialog(null, "A remoção da tarefa foi cancelada!");
             }
-            JOptionPane.showMessageDialog(null, "Tarefa removida com sucesso!");
+            }else{
+                JOptionPane.showConfirmDialog(null, "Nenhuma Tarefa encontrada!", "Tarefa não encontrada!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro no sistema!");
         }
@@ -198,14 +223,31 @@ public class TarefaView extends javax.swing.JFrame {
     private void btConcluida1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConcluida1ActionPerformed
         try {
             if (cbTarefas.getSelectedItem() != null) {
-                String status = cbTarefas.getSelectedItem().toString();
-                controller.cloncluida(status);
+                int escolha = JOptionPane.showOptionDialog(null, "Deseja concluir essa tarefa?", "Confirmar escolha", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+                if (escolha == JOptionPane.OK_OPTION) {
+                    String status = cbTarefas.getSelectedItem().toString();
+                    controller.cloncluida(status);
+                    JOptionPane.showConfirmDialog(null, status+" foi concluida com sucesso!", "Tarefa Concluida!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                    btListarActionPerformed(evt);
+                }else if(escolha == JOptionPane.CANCEL_OPTION){
+                    JOptionPane.showConfirmDialog(null, "A conclusão foi cancelada!");
+            }
+            }else{
+                JOptionPane.showConfirmDialog(null, "Nenhuma Tarefa encontrada!", "Tarefa não encontrada!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
+                JOptionPane.showConfirmDialog(null, "Ocorreu um erro no sistema!");
         }
             
         
     }//GEN-LAST:event_btConcluida1ActionPerformed
+
+    private void txfNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfNomeKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            btAdicionarActionPerformed(null);
+        }
+    }//GEN-LAST:event_txfNomeKeyPressed
 
     /**
      * @param args the command line arguments
@@ -242,6 +284,7 @@ public class TarefaView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbQuantidades;
     private javax.swing.JTextArea taLista;
     private javax.swing.JTextField txfNome;
     // End of variables declaration//GEN-END:variables

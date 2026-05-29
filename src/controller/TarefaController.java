@@ -39,7 +39,6 @@ public class TarefaController {
             if (lista.get(i).getNome().equalsIgnoreCase(nome)) {
                 TarefaModel tarefa = lista.get(i);
                 tarefa.setConcluida(true);
-                JOptionPane.showConfirmDialog(null, "Essa tarefa foi concluida!");
                 achou = true;
                 break;
         }
