@@ -170,14 +170,14 @@ public class TarefaView extends javax.swing.JFrame {
                     "Digite o nome da tarefa!");
                 return;
             }else{
-                //Envia para controle
+                boolean vdd = controller.adicionar(nome);
                 controller.adicionar(nome);
-                cbTarefas.addItem(nome);
-                JOptionPane.showMessageDialog(null, 
-                        "Tarefa cadastrada!");
                 txfNome.setText("");
-                System.out.println(nome);
+                //Envia para controle
+                if (vdd = true) {
+                cbTarefas.addItem(nome);
                 btListarActionPerformed(evt);
+                }
             }
             txfNome.requestFocus();
         } catch (Exception e) {
@@ -189,10 +189,14 @@ public class TarefaView extends javax.swing.JFrame {
         try {
             taLista.setText("");
             //Percorre lista 
-            for(TarefaModel t : controller.listar()){
-                taLista.append(t.toString());
-                taLista.append("\n");
-                lbQuantidades.setText("Tarefas: "+cbTarefas.getItemCount());
+            if (cbTarefas.getSelectedItem() != null) {
+                for(TarefaModel t : controller.listar()){
+                    taLista.append(t.toString());
+                    taLista.append("\n");
+                    lbQuantidades.setText("Tarefas: "+cbTarefas.getItemCount());
+            }
+            }else{
+                JOptionPane.showConfirmDialog(null, "Nenhuma Tarefa encontrada!", "Tarefa não encontrada!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro no sistema!");
@@ -207,7 +211,6 @@ public class TarefaView extends javax.swing.JFrame {
                     String removerTarefa = cbTarefas.getSelectedItem().toString();
                     controller.remover(removerTarefa);
                     cbTarefas.removeItem(cbTarefas.getSelectedItem());
-                    btListarActionPerformed(evt);
                     JOptionPane.showConfirmDialog(null, removerTarefa+" foi removida com sucesso!", "Tarefa Removida!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 }else if(escolha == JOptionPane.CANCEL_OPTION){
                     JOptionPane.showMessageDialog(null, "A remoção da tarefa foi cancelada!");
@@ -215,6 +218,7 @@ public class TarefaView extends javax.swing.JFrame {
             }else{
                 JOptionPane.showConfirmDialog(null, "Nenhuma Tarefa encontrada!", "Tarefa não encontrada!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
             }
+            btListarActionPerformed(evt);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro no sistema!");
         }

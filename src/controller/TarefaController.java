@@ -10,10 +10,24 @@ public class TarefaController {
     private ArrayList<TarefaModel> lista = new ArrayList<>();
     
     //Método Adicionar
-    public void adicionar(String nome){
-        TarefaModel tarefa = new TarefaModel(nome);
-        lista.add(tarefa);//acidiona se caso não existir
+    public boolean adicionar(String nome){
+        boolean existe = false;
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getNome().equalsIgnoreCase(nome)) {
+                existe = true;
+                break;
+            }
+        }
+        if (!existe) {
+            TarefaModel tarefa = new TarefaModel(nome);
+            tarefa.setNome(nome);
+            lista.add(tarefa);//acidiona se caso não existir
+        }else{
+            JOptionPane.showConfirmDialog(null, "Erro: Já existe Tarefa com esse titulo!", "Tarefa ja existente", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+        }
+        return true;
     }
+    
     
     //Método listar
     public ArrayList<TarefaModel> listar(){
